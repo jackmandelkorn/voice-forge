@@ -1,0 +1,35 @@
+body {
+  overflow-x: hidden;
+  overflow-y: scroll;
+  margin: 4px;
+  min-width: calc(100vw - 8px);
+  min-height: calc(100vh - 8px);
+}
+
+* {
+  transition: all ease 0.3s !important;
+}
+
+a, button {
+  /*pointer-events: none !important;*/
+}
+
+#vf-file-upload {
+  display: none;
+}
+
+.vf-selected {
+  outline: 2px dashed #007bff !important;
+  outline-offset: 2px !important;
+}
+.vf-drag-parent {
+  outline: 2px dashed #007bff !important;
+  outline-offset: -5px !important;
+}
+img.vf-selected {
+  border: 2px dashed #007bff !important;
+}
+.vf-dragging {
+  position: fixed !important;
+  opacity: 0.5 !important;
+}

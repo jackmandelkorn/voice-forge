@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- GA -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-109556256-2"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-109556256-2');
+    </script>
+    <!-- META -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Make websites using your voice.">
+    <!-- CSS -->
+    <link rel="stylesheet" href="bootstrap/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="css/voiceforge.css">
+    <!-- OTHER -->
+    <link rel="icon" href="media/logo/voice-forge-primary-512.png">
+    <title>Voice Forge</title>
+    <!-- PRELOAD JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aws-sdk/2.219.1/aws-sdk.js"></script>
+    <script src="js/preload.js"></script>
+    <script src="js/ipsum.js"></script>
+  </head>
+  <body onload="preloadBody()">
+
+    <!-- BODY -->
+    <div id="side-panel">
+      <div class="container">
+        <div class="row justify-content-center">
+          <img id="logo" src="media/logo/voice-forge-primary-512.png" onclick="homepage()">
+        </div>
+      </div>
+      <nav class="mt-4">
+        <div class="nav nav-tabs" id="tabs" role="tablist">
+          <a class="nav-item nav-link active" id="components-tab" data-toggle="tab" href="#components" role="tab" aria-controls="components" aria-selected="true"><i class="material-icons">view_comfy</i></a>
+          <!--<a class="nav-item nav-link" id="selected-tab" data-toggle="tab" href="#selected" role="tab" aria-controls="selected" aria-selected="false"><i class="material-icons">aspect_ratio</i></a>-->
+          <a class="nav-item nav-link" id="settings-tab" data-toggle="tab" href="#settings" role="tab" aria-controls="settings" aria-selected="false"><i class="material-icons">tune</i></a>
+        </div>
+      </nav>
+      <div class="tab-content" id="tabsContent">
+        <div class="tab-pane fade show active" id="components" role="tabpanel" aria-labelledby="components-tab">
+          <p class="my-4 lead text-center">Components</p>
+          <div class="side-panel-content neutral">
+            <form class="form-inline mb-4">
+              <div class="input-group">
+                <input id="components-search" class="form-control" type="search" onkeypress="searchPress(event)" placeholder="Filter" aria-label="Filter">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-primary" type="button" onclick="updateFilterSearch()"><i class="material-icons" style="vertical-align:middle;">search</i></button>
+                </div>
+              </div>
+            </form>
+            <div id="components-search-results" class="lead text-secondary"></div>
+          </div>
+        </div>
+        <!--
+        <div class="tab-pane fade" id="selected" role="tabpanel" aria-labelledby="selected-tab">
+          <p class="my-4 lead text-center">Selected Element</p>
+          <div class="side-panel-content">
+
+          </div>
+        </div>
+        -->
+        <div class="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="settings-tab">
+          <p class="my-4 lead text-center">Project Settings</p>
+          <div class="side-panel-content">
+            <div class="row align-items-center justify-content-center mb-1">
+              <button type="button" class="btn btn-primary btn-sm mb-3" onclick="exportHTML()">Export Project</button>
+            </div>
+            <h6 class="dropdown-header pl-0 pb-0">Project Metadata</h6>
+            <hr>
+            <input type="text" id="title-input" class="form-control mb-3 w-100" placeholder="Project Title">
+            <input type="text" id="description-input" class="form-control mb-3 w-100" placeholder="Project Description">
+            <input type="text" id="version-input" class="form-control mb-3 w-100" placeholder="Project Version">
+            <h6 class="mt-4 dropdown-header pl-0 pb-0">Project URL</h6>
+            <hr>
+            <div class="input-group mb-3 w-100">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><small>voiceforge.io/</small></span>
+              </div>
+              <input type="text" id="url-input" class="form-control" placeholder="project-url">
+            </div>
+            <h6 class="mt-4 dropdown-header pl-0 pb-0">Other Settings</h6>
+            <hr>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="neutral-input">
+              <label class="form-check-label" for="neutral-inputs">
+                Neutral UI Colors
+              </label>
+            </div>
+            <button type="button" class="btn btn-primary btn-sm mt-3" onclick="changePinModal()">Change Pin</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Missing Modal -->
+    <div class="modal fade" id="pinMissingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Please enter your pin</h5>
+          </div>
+          <div class="modal-body">
+            <p>Your default Voice Forge pin is not set on this device. Please enter it below:</p>
+            <div class="input-group">
+              <input id="missing-input" type="text" class="form-control" placeholder="123456" maxlength="6">
+              <div class="input-group-append">
+                <button class="btn btn-outline-primary" type="button" onclick="changePin('missing-input')">Set Pin</button>
+              </div>
+            </div>
+            <p class="text-primary text-center w-100 mt-3" data-toggle="tooltip" data-placement="top" title="Open Voice Forge and ask Alexa, 'What's my pin?'">Don't know your pin?</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Change Modal -->
+    <div class="modal fade" id="pinChangeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Are you sure you want to change your pin?</h5>
+          </div>
+          <div class="modal-body">
+            <p>Changing your pin will cause you to lose access to your projects on this device until you change it back.</p>
+            <div class="input-group">
+              <input id="change-input" type="text" class="form-control" placeholder="123456" maxlength="6">
+              <div class="input-group-append">
+                <button class="btn btn-outline-danger" type="button" onclick="changePin('change-input')">Change Pin</button>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOOTSTRAP JS -->
+    <script src="bootstrap/jquery-3.2.1.slim.min.js"></script>
+    <script src="bootstrap/popper.min.js"></script>
+    <script src="bootstrap/bootstrap.min.js"></script>
+    <script src="bootstrap/util.js"></script>
+
+    <!-- JS -->
+    <script src="js/voiceforge.js"></script>
+    <script src='https://spreadsheets.google.com/feeds/cells/1swnGqmo4RE8nunLvaROOjPHepHndGzJKSPU97Ob1Jp8/od6/public/values?alt=json-in-script&callback=vfSheets'></script>
+
+    <div id="result-container">
+      <iframe id="result" src="iframe.html">
+    </div>
+
+  </body>
+</html>

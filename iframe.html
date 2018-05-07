@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- META -->
+    <meta charset="utf-8">
+    <meta name="description" content="made with Voice Forge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title></title>
+    <!-- CSS -->
+    <link rel="stylesheet" href="bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="css/iframe.css">
+    <!-- PRELOAD JS -->
+    <script src="js/ipsum.js"></script>
+  </head>
+  <body onload="domChange()">
+
+    <input type="file" id="vf-file-upload" onchange="imageUpload(this)">
+
+    <!-- BOOTSTRAP JS -->
+    <script src="bootstrap/jquery-3.2.1.slim.min.js"></script>
+    <script src="bootstrap/popper.min.js"></script>
+    <script src="bootstrap/bootstrap.min.js"></script>
+    <script src="bootstrap/util.js"></script>
+
+    <!-- JS -->
+    <script src="js/iframe.js"></script>
+    <script src="https://spreadsheets.google.com/feeds/cells/1swnGqmo4RE8nunLvaROOjPHepHndGzJKSPU97Ob1Jp8/od6/public/values?alt=json-in-script&callback=vfSheets"></script>
+    <div class="vf-append-content"></div>
+  </body>
+</html>
